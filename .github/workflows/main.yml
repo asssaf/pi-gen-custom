@@ -18,6 +18,7 @@ jobs:
           keyboard-keymap: us
           keyboard-layout: English (US)
           locale: en_US.UTF-8
+          wpa-country: US
           enable-ssh: 1
           disable-first-boot-user-rename: 1
           username: user
@@ -25,7 +26,7 @@ jobs:
           pi-gen-release: Raspberry Pi Custom
           release: bookworm
           verbose-output: true
-          wpa-country: US
+          compression: none          
 
       - uses: actions/upload-artifact@v4
         with:
