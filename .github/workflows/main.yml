@@ -13,7 +13,19 @@ jobs:
         id: build
         with:
           image-name: custom
-          stage-list: stage0 stage1 stage2
+          stage-list: stage0 stage1
+          hostname: pi-custom
+          keyboard-keymap: us
+          keyboard-layout: English (US)
+          locale: en_US.UTF-8
+          enable-ssh: 1
+          disable-first-boot-user-rename: 1
+          username: user
+          password: raspberry
+          pi-gen-release: Raspberry Pi Custom
+          release: bookworm
+          verbose-output: true
+          wpa-country: US
 
       - uses: actions/upload-artifact@v4
         with:
