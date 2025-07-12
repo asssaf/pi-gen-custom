@@ -11,5 +11,10 @@ jobs:
     steps:
       - uses: usimd/pi-gen-action@v1
         with:
-          image-name: test
+          image-name: custom
           stage-list: stage0 stage1 stage2
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pi-gen-image
+          path: ${{ steps.build.outputs.image-path }}
