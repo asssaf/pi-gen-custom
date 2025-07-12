@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     steps:
       - uses: usimd/pi-gen-action@v1
+        id: build
         with:
           image-name: custom
           stage-list: stage0 stage1 stage2
