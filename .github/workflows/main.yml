@@ -9,11 +9,19 @@ jobs:
   build:
     runs-on: ubuntu-24.04-arm
     steps:
-      - uses: usimd/pi-gen-action@v1
+      - name: checkout
+        uses: actions/checkout@v3
+
+
+      - name: build
         id: build
+        uses: usimd/pi-gen-action@v1
         with:
+          pi-gen-version: arm64
+          release: trixie
           image-name: custom
-          stage-list: stage0 stage1
+          stage-list: stage0 stage1 stage2 ./stage2-custom
+          export-last-stage-only: true
           hostname: pi-custom
           keyboard-keymap: us
           keyboard-layout: English (US)
@@ -24,9 +32,9 @@ jobs:
           username: user
           password: raspberry
           pi-gen-release: Raspberry Pi Custom
-          release: bookworm
           verbose-output: true
-          compression: none          
+          compression: none
+
 
       - uses: actions/upload-artifact@v4
         with:
