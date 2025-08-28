@@ -82,6 +82,30 @@ write_files:
       max-load-1 = 24
       min-memory = 1
       #ping = 8.8.8.8
+  - path: /etc/NetworkManager/dispatcher.d/recovery
+    permissions: "0755"
+    content: |
+      #!/usr/bin/env bash
+      set -eu
+
+      exec >> /tmp/recovery.log 2>&1
+
+      DEV="wlan0"
+      RECOVERY_DEVICE="/dev/disk/by-label/RECOVERY"
+      MOUNT="/tmp/recovery"
+      ATTEMPT_FILE="${MOUNT}/bootattempt"
+
+      if [ "$1" = "$DEV" -a "$2" = "up" -a ! -e "$MOUNT" ]
+      then
+        mkdir "$MOUNT"
+        mount "$RECOVERY_DEVICE" "$MOUNT"
+        if [ -e "$ATTEMPT_FILE" ]
+        then
+          rm "$ATTEMPT_FILE"
+          umount "$MOUNT"
+          echo "Marked successful boot"
+        fi
+      fi
 
 # These commands will be ran once on first boot only
 runcmd:
