@@ -59,11 +59,11 @@ jobs:
       - name: upload-artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: image
+          name: "image-${{matrix.build.arch}}"
           path: pi-gen/deploy/*.img.xz
 
       - name: upload-artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: info
+          name: "info-${{matrix.build.arch}}"
           path: pi-gen/deploy/*.info
