@@ -5,13 +5,21 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+  RELEASE: trixie
+
 jobs:
   build:
     runs-on: ubuntu-24.04-arm
+    strategy:
+      matrix:
+        build:
+          - { arch: arm64, branch: arm64 }
+          - { arch: armhf, branch: master }
     steps:
       - name: clone pi-gen
         run: |
-          git clone --branch arm64 --single-branch --depth 1 https://github.com/RPi-Distro/pi-gen.git
+          git clone --branch "${{ matrix.build.branch }}" --single-branch --depth 1 https://github.com/RPi-Distro/pi-gen.git
 
       - name: checkout
         uses: actions/checkout@v3
@@ -21,8 +29,8 @@ jobs:
       - name: generate-config
         run: |
           cat > pi-gen/config <<EOF
-          RELEASE=trixie
-          IMG_NAME="raspios-custom-trixie-aarch64"
+          RELEASE=${{ env.RELEASE }}
+          IMG_NAME="raspios-custom-${{env.RELEASE}}-${{matrix.build.arch}}"
           LOCALE_DEFAULT=en_US.UTF-8
           TARGET_HOSTNAME=raspberrypi
           KEYBOARD_KEYMAP=us
