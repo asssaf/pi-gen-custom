@@ -52,7 +52,9 @@ jobs:
         run: |
           cd pi-gen
           touch stage2/SKIP_IMAGES
-          ./build-docker.sh -c config
+          sudo apt update
+          sudo apt install -y quilt qemu-user-static debootstrap libarchive-tools arch-test
+          sudo ./build.sh -c config
 
       - name: upload-artifacts
         uses: actions/upload-artifact@v4
